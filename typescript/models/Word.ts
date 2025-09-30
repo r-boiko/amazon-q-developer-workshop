@@ -16,7 +16,15 @@ export class Word {
     isCorrect(guess: string): boolean {
       return this.word === guess;
     }
-  
+
+    /**
+     * Evaluates a guess against the target word and returns feedback
+     * @param guess - The word being guessed
+     * @returns A string where:
+     *  '+' indicates correct letter in correct position
+     *  '?' indicates correct letter in wrong position
+     *  'X' indicates letter not in word
+     */
     getInfo(guess: string): string {
       const result: string[] = [];
   
