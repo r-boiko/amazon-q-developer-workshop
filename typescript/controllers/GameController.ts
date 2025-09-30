@@ -1,8 +1,14 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
+import session from 'express-session';
 import { WordSelectionService } from '../services/WordSelectionService';
 import { GameStatus } from '../models/GameStatus';
 import { Word } from '../models/Word';
+
+interface GuessHistory {
+    guess: string;
+    result: string;
+}
 
 class GameController {
 
@@ -28,12 +34,17 @@ class GameController {
                 res.redirect('/');
                 return;
             }
+
+            // Initialize session data
+            (req as any).session = (req as any).session || {};
+            (req as any).session.guessHistory = [];
         
             res.render('game.ejs', {
                 message: 'Make your first guess!',
                 attempts,
                 status: GameStatus.INPROGRESS,
                 user,
+                guessHistory: [],
                 workshopMode: this.workshopMode,
                 basePath: this.basePath
             });
@@ -48,6 +59,14 @@ class GameController {
             const result = WORD.getInfo(guess);
             var message = '';
             var status = 'UNKNOWN';
+            
+            // Initialize session if not exists
+            (req as any).session = (req as any).session || {};
+            const guessHistory: GuessHistory[] = (req as any).session.guessHistory || [];
+            
+            // Add current guess to history
+            guessHistory.push({ guess, result });
+            (req as any).session.guessHistory = guessHistory;
             
             // log the value of WORD and guess
             console.log(`Word: ${WORD.getWord()}, Guess: ${guess}`);
@@ -65,6 +84,7 @@ class GameController {
             }
             res.render('game.ejs', { message, attempts, guess, result, status, 
                 user, 
+                guessHistory,
                 workshopMode: this.workshopMode,
                 basePath: this.basePath }
             );

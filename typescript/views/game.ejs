@@ -181,6 +181,27 @@
                     <span class="fw-bold"><%= attempts %></span>
                 </td>
             </tr>
+            
+            <% if (typeof guessHistory !== 'undefined' && guessHistory.length > 0) { %>
+            <tr>
+                <td class="label">Guess History:</td>
+                <td class="content">
+                    <div class="guess-history">
+                        <% guessHistory.forEach(function(entry, index) { %>
+                            <div class="history-entry mb-2">
+                                <span class="fw-bold"><%= index + 1 %>.</span>
+                                <span class="me-2"><%= entry.guess %></span>
+                                <% entry.result.split('').forEach(function(c) { %>
+                                    <span class="letter-box <%= c === '+' ? 'correct' : (c === '?' ? 'wrong-position' : 'incorrect') %>">
+                                        <%= c.toLowerCase() %>
+                                    </span>
+                                <% }); %>
+                            </div>
+                        <% }); %>
+                    </div>
+                </td>
+            </tr>
+            <% } %>
         </table>
     </div>
 

@@ -1,4 +1,5 @@
 import express from 'express';
+import session from 'express-session';
 import path from 'path';
 import 'dotenv';
 const dotenv = require('dotenv');
@@ -21,6 +22,11 @@ class App {
     this.app.use(express.static(path.join(__dirname, 'static')));
     this.app.use(express.json()); 
     this.app.use(express.urlencoded());     
+    this.app.use(session({
+      secret: 'qwords-secret',
+      resave: false,
+      saveUninitialized: true
+    }));
 
      
     // Set global template variables    
