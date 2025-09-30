@@ -53,15 +53,15 @@ class GameController {
             console.log(`Word: ${WORD.getWord()}, Guess: ${guess}`);
 
             if (WORD.isCorrect(guess)) {
-                const message = 'Congratulations! You guessed correctly.';
-                const status = GameStatus.SUCCESS;
+                message = 'Congratulations! You guessed correctly.';
+                status = GameStatus.SUCCESS;
                 
             } else if (attempts >= 5) {
-                const message = 'Game Over! You have used all your attempts.';
-                const status = GameStatus.FAILED;
+                message = 'Game Over! You have used all your attempts.';
+                status = GameStatus.FAILED;
             } else {
-                const message = 'Try again. Your next guess:';
-                const status = GameStatus.INPROGRESS;
+                message = 'Try again. Your next guess:';
+                status = GameStatus.INPROGRESS;
             }
             res.render('game.ejs', { message, attempts, guess, result, status, 
                 user, 

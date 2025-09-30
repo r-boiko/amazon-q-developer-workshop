@@ -63,7 +63,7 @@ export class WordList {
 
     // Get a random word from the list
     public getRandomWord(): string {
-        const randomIndex = 0;
+        const randomIndex = Math.floor(Math.random() * this.wordlist.length);
         this.lastWord = this.currentWord;
         this.currentWord = this.wordlist[randomIndex];
         return this.currentWord;
